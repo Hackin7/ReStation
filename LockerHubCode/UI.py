@@ -6,6 +6,7 @@ import Interface as intf
 import sys
 sys.path.append('./ImageRecognition')
 
+import threading
 ###Put##################################################################
 class CheckImageNotAbuse(ShowScreen):
     obj = intf.ReuseableObject()
@@ -15,11 +16,19 @@ class CheckImageNotAbuse(ShowScreen):
     def buttonRight(self):
         intf.im.check()
         self.obj.image = intf.im.image
-        if intf.im.isAbuse:
-            popupMessage("This Object is not accpetable\nfor the time being.\nSorry for the inconvenience")
-        else:
-            sm.get_screen(self.toScreen).update(self.obj)
-            sm.current=self.toScreen
+        load = PopupMessage("Loading...", "Loading", False)
+        def run():
+            while True:
+                pass
+            if intf.im.isAbuse:
+                popupMessage("This Object is not accpetable\nfor the time being.\nSorry for the inconvenience")
+            else:
+                load.dismiss()
+                sm.get_screen(self.toScreen).update(self.obj)
+                sm.current=self.toScreen
+        x = threading.Thread(target=run, args=())
+        x.start()
+        
             
     def __init__(self,toScreen="unlock", **kwargs):
         super(CheckImageNotAbuse, self).__init__(**kwargs)
@@ -292,7 +301,7 @@ class CloseDoor(Screen):
         self.generateLayout()
         
     def generateLayout(self):
-        r1 = Label(text=self.mainText)
+        r1 = Label(text=self.mainText,markup=True)
         r2 = MyButton(text="Ok", 
                         page="", 
                     function=self.buttonFunction)

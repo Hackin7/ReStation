@@ -18,13 +18,19 @@ class BoxLayout(BoxLayout):
     def __init__(self, **kwargs):
         super(BoxLayout, self).__init__(padding=[10,10], spacing=10,**kwargs)
         
-def popupMessage(text="An Error has occured.", title="Error"):
-    content = Label(text=text)
-    popup = Popup(title=title, content=content, 
-    size_hint=(None, None),size=(400, 400))
-    # open the popup
-    popup.open()
-    
+def popupMessage(text="An Error has occured.", title="Error", auto_dismiss=True):
+    PopupMessage(text, title, auto_dismiss)
+
+class PopupMessage:
+    def __init__(self,text="An Error has occured.", title="Error", auto_dismiss=True):
+        self.content = Label(text=text)
+        self.popup = Popup(title=title, content=self.content, 
+                            size_hint=(None, None),size=(400, 400),
+                            auto_dismiss=auto_dismiss)
+        # open the popup
+        self.popup.open()
+    def dismiss(self):
+        self.popup.dismiss()
 def confirmPopup(text="Are you sure?", title="Error", leftScreen="",rightScreen=""):
     main = Label(text=text)
     
@@ -130,6 +136,7 @@ class PinEntry(Screen):
             self.pinInput.text = self.pinInput.text[:-1]
     def generateLayout(self):
         r1 = Label(text=self.text,size_hint=(1.0,0.5))
+        r1.font_size = '30dp'
         self.pinInput = TextInput(multiline=False,input_filter= 'float',
                                     size_hint=(1.0,0.5))
         key = VKeyboard()

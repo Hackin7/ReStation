@@ -133,6 +133,7 @@ class HardwareLocker:
         
         try: self.ser = serial.Serial('/dev/ttyUSB0')  # open serial port
         except: 
+            print("Dummy Serial")
             self.serialWrite = lambda write :None
             self.serialQuery = lambda query :b"Yes\r\n"
     def randomLocker(self):
