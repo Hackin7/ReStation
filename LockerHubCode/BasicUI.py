@@ -1,0 +1,145 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.uix.popup import Popup
+from kivy.uix.vkeyboard import VKeyboard
+
+from kivy.config import Config
+Config.set('graphics', 'width', '800')
+Config.set('graphics', 'height', '480')
+
+transitioner=SlideTransition(direction="up")
+sm = ScreenManager(transition=transitioner)
+class BoxLayout(BoxLayout):
+    def __init__(self, **kwargs):
+        super(BoxLayout, self).__init__(padding=[10,10], spacing=10,**kwargs)
+        
+def popupMessage(text="An Error has occured.", title="Error"):
+    content = Label(text=text)
+    popup = Popup(title=title, content=content, 
+    size_hint=(None, None),size=(400, 400))
+    # open the popup
+    popup.open()
+    
+def confirmPopup(text="Are you sure?", title="Error", leftScreen="",rightScreen=""):
+    main = Label(text=text)
+    
+    bottom = BottomBar("No", "Yes", leftScreen, rightScreen)
+    
+    content = BoxLayout(orientation='vertical')
+    content.add_widget(main)
+    content.add_widget(bottom.main)
+    popup = Popup(title=title, content=content, 
+    size_hint=(None, None),size=(400, 400))
+    bottom.leftButton.bind(on_press=popup.dismiss)
+    bottom.rightButton.bind(on_press=popup.dismiss)
+    # open the popup
+    popup.open()
+class MyButton(Button):
+    def __init__(self, page="", function=lambda:None, **kwargs):
+        self.page = page
+        self.function = function
+        super(MyButton, self).__init__(size_hint=(.7, .7), **kwargs)
+    def on_press(self):
+        self.function()
+        if self.page != "":
+            sm.current = self.page
+
+def bottomBar(left, right, leftScreen, rightScreen, 
+              leftFunction=lambda:None, rightFunction=lambda:None):
+    bottom = BottomBar(left, right, leftScreen, rightScreen, leftFunction, rightFunction)
+    return bottom.main
+
+class BottomBar:
+    def __init__(self,left, right, leftScreen, rightScreen, 
+              leftFunction=lambda:None, rightFunction=lambda:None):
+        self.left = left
+        self.right = right
+        self.leftScreen= leftScreen
+        self.rightScreen = rightScreen
+        self.leftFunction = leftFunction
+        self.rightFunction = rightFunction
+        self.generateBar()
+    def generateBar(self):
+        self.leftButton = MyButton(text=self.left, 
+                              page=self.leftScreen, 
+                              function=self.leftFunction)
+        self.rightButton = MyButton(text=self.right, 
+                               page=self.rightScreen, 
+                               function=self.rightFunction)
+        self.main = BoxLayout()
+        self.main.add_widget(self.leftButton)
+        self.main.add_widget(self.rightButton)
+        self.main.size_hint = (1.0,0.75)
+        
+class ShowScreen(Screen):    
+    def __init__(self, main="Hello",\
+                left = "Back",right="Ok",
+                leftScreen="",rightScreen="",
+                leftFunction=lambda:None, rightFunction=lambda:None,
+                **kwargs):
+        super(ShowScreen, self).__init__(**kwargs) 
+          
+        self.mainText = main
+        self.leftText = left
+        self.rightText= right
+        self.leftScreen = leftScreen
+        self.rightScreen = rightScreen
+        self.leftFunction = lambda:None
+        self.rightFunction = lambda:None
+        
+        self.generateLayout()
+    def update(self, obj):
+        pass
+    def generateLayout(self):
+        r1 = Label(text=self.mainText, markup=True)
+        #r1.font_size = '50dp'
+        r2 = bottomBar(self.leftText, self.rightText, 
+                       self.leftScreen, self.rightScreen, 
+                       self.leftFunction, self.rightFunction)
+        layout = BoxLayout(orientation='vertical')
+        layout.add_widget(r1)
+        layout.add_widget(r2)
+        self.clear_widgets()
+        self.add_widget(layout)            
+
+class PinEntry(Screen):
+    text=""
+    toScreen=""
+    def __init__(self, text="Enter Pin:",toScreen="",**kwargs):
+        super(PinEntry, self).__init__(**kwargs)
+        self.text=text
+        self.toScreen = toScreen
+        self.generateLayout()
+    def buttonFunction(self):
+        pin = self.pinInput.text
+        if len(pin) == 0:
+            popupMessage("No Pin Entered!")
+        elif self.toScreen != "":
+            sm.get_screen(self.toScreen).update(pin)
+            sm.current = self.toScreen
+    def key_down(self, keyboard, keycode, text, modifiers):
+        """ The callback function that catches keyboard events. """
+        if text != None:
+            self.pinInput.text += text
+        if keycode == "backspace":
+            self.pinInput.text = self.pinInput.text[:-1]
+    def generateLayout(self):
+        r1 = Label(text=self.text,size_hint=(1.0,0.5))
+        self.pinInput = TextInput(multiline=False,input_filter= 'float',
+                                    size_hint=(1.0,0.5))
+        key = VKeyboard()
+        key.bind(on_key_down=self.key_down)
+        nav = bottomBar("Back", "Ok", 
+                       "menu", "", 
+                       lambda:None, self.buttonFunction)
+        layout = BoxLayout(orientation='vertical')
+        layout.add_widget(r1)
+        layout.add_widget(self.pinInput)
+        layout.add_widget(key)
+        layout.add_widget(nav)
+        self.add_widget(layout) 
