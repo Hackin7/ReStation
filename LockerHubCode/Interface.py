@@ -16,13 +16,38 @@ class ReuseableObject:
         if not havePin: return True
         elif havePin and pin == self.pin: return True
         else: return False
-
+'''
 class ImageRecognition:
     isAbuse = False
     image = ""
     def __init__(self):pass
     def check(self):
         self.isAbuse = False
+'''
+from classify_image import *
+allowed = ["radio"]
+class ImageRecognition:
+    isAbuse = False
+    image = ""
+    def __init__(self):pass
+    def check(self):
+        possiblePredictions=""
+        listOfPredictions = []
+        try:
+            os.system("raspistill -n -o /tmp/output.jpeg")
+            predictionsData = run_inference_on_image("/tmp/output.jpeg")
+            for prediction, score in predictionsData:
+                possiblePredictions += prediction+","
+            listOfPredictions = [i.strip() for i in possiblePredictions.split(",")]
+        except:
+            pass
+        print(predictionsData)
+        commonThings = list(set(listOfPredictions).intersection(allowed))
+        if len(commonThings) > 0:
+            self.isAbuse = False
+        else:
+            self.isAbuse = True
+            
 im = ImageRecognition()
 
 
@@ -82,9 +107,10 @@ class DataBase(DataBaseTemplate):
     def removeObject(self, obj):
         print("Removing Object",obj.id)
 try:
-    import anvil.server
-    anvil.server.connect('NTC3GD3W7NUGZJYBRQS2L5KM-W5BOWXMEHYCQTPC4')
-    db = DataBase()
+    var = 1/0
+    #import anvil.server
+    #anvil.server.connect('NTC3GD3W7NUGZJYBRQS2L5KM-W5BOWXMEHYCQTPC4')
+    #db = DataBase()
 except:
     print("Using Dummy Database")
     db = DataBaseTemplate()
