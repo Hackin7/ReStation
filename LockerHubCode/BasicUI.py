@@ -31,6 +31,14 @@ class PopupMessage:
         self.popup.open()
     def dismiss(self):
         self.popup.dismiss()
+import threading
+def loading(run, args=()):
+    def toRun():
+        run()
+        load.dismiss()
+    load = PopupMessage("Loading...", "Loading", False)
+    x = threading.Thread(target=toRun)
+    x.start()
 def confirmPopup(text="Are you sure?", title="Error", leftScreen="",rightScreen=""):
     main = Label(text=text)
     

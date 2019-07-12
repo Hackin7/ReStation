@@ -6,7 +6,6 @@ import Interface as intf
 import sys
 sys.path.append('./ImageRecognition')
 
-import threading
 ###Put##################################################################
 class CheckImageNotAbuse(ShowScreen):
     obj = intf.ReuseableObject()
@@ -16,18 +15,14 @@ class CheckImageNotAbuse(ShowScreen):
     def buttonRight(self):
         intf.im.check()
         self.obj.image = intf.im.image
-        load = PopupMessage("Loading...", "Loading", False)
         def run():
-            while True:
-                pass
             if intf.im.isAbuse:
                 popupMessage("This Object is not accpetable\nfor the time being.\nSorry for the inconvenience")
             else:
                 load.dismiss()
                 sm.get_screen(self.toScreen).update(self.obj)
                 sm.current=self.toScreen
-        x = threading.Thread(target=run, args=())
-        x.start()
+        loading(run)
         
             
     def __init__(self,toScreen="unlock", **kwargs):
@@ -156,28 +151,32 @@ class ConfirmObjDetails(ShowScreen):
 class PutKey(PinEntry):
     def buttonFunction(self):
         ID = self.pinInput.text
-        if len(ID) == 0:
-            popupMessage("No Registration ID Entered!")
-        elif intf.db.registrationInDatabase(ID) and self.toScreen != "":
-            self.obj = intf.db.getRegistration(ID)
-            sm.get_screen(self.toScreen).update(self.obj)
-            sm.current = self.toScreen
-        else:
-            popupMessage("No Such Registration ID Exists!")
+        def run():
+            if len(ID) == 0:
+                popupMessage("No Registration ID Entered!")
+            elif intf.db.registrationInDatabase(ID) and self.toScreen != "":
+                self.obj = intf.db.getRegistration(ID)
+                sm.get_screen(self.toScreen).update(self.obj)
+                sm.current = self.toScreen
+            else:
+                popupMessage("No Such Registration ID Exists!")
+        loading(run)
             
 ###Get##################################################################
 class SelectLocker(PinEntry):
     def buttonFunction(self):
         ID = self.pinInput.text
-        if len(ID) == 0:
-            popupMessage("No Locker ID Entered!")
-        elif intf.db.objInDatabase(ID) and self.toScreen != "":
-            obj = intf.db.readInObj(ID)
-            obj.toPut = False
-            sm.get_screen(self.toScreen).update(obj)
-            sm.current = self.toScreen
-        else:
-            popupMessage("No Such Locker ID Exists!")
+        def run():
+            if len(ID) == 0:
+                popupMessage("No Locker ID Entered!")
+            elif intf.db.objInDatabase(ID) and self.toScreen != "":
+                obj = intf.db.readInObj(ID)
+                obj.toPut = False
+                sm.get_screen(self.toScreen).update(obj)
+                sm.current = self.toScreen
+            else:
+                popupMessage("No Such Locker ID Exists!")
+        loading(run)
             
 class ShowObjectDetails(ShowScreen):
     obj = intf.ReuseableObject()
@@ -251,17 +250,19 @@ class Verification(PinEntry):
 class Unlocking(ShowScreen):
     obj = intf.ReuseableObject()
     def buttonRight(self):
-        if self.toPut and intf.hl.hasObject(self.obj):
-            intf.db.writeOut(self.obj)
-            sm.get_screen(self.toScreen).update(self.obj)
-            sm.current=self.toScreen
-        elif not self.toPut and not intf.hl.hasObject(self.obj):
-            intf.db.removeObject(self.obj)
-            sm.get_screen(self.toScreen).update(self.obj)
-            sm.current=self.toScreen
-        else:
-            popupMessage("There were no changes to the locker!\nPress Back to quit.")
-            
+        def run():
+            if self.toPut and intf.hl.hasObject(self.obj):
+                intf.db.writeOut(self.obj)
+                sm.get_screen(self.toScreen).update(self.obj)
+                sm.current=self.toScreen
+            elif not self.toPut and not intf.hl.hasObject(self.obj):
+                intf.db.removeObject(self.obj)
+                sm.get_screen(self.toScreen).update(self.obj)
+                sm.current=self.toScreen
+            else:
+                popupMessage("There were no changes to the locker!\nPress Back to quit.")
+        loading(run)
+        
     def buttonLeft(self):
         confirmPopup("Are you sure you go back to main menu", 
          rightScreen=self.toScreen)
@@ -282,11 +283,13 @@ class Unlocking(ShowScreen):
 class CloseDoor(Screen):
     obj = intf.ReuseableObject()
     def buttonFunction(self):
-        if intf.hl.doorClosed():
-            sm.current=self.toScreen
-            intf.hl.lock()
-        else:
-            popupMessage("The door needs to be closed!\n")
+        def run():
+            if intf.hl.doorClosed():
+                sm.current=self.toScreen
+                intf.hl.lock()
+            else:
+                popupMessage("The door needs to be closed!\n")
+        loading(run)
             
     def update(self,obj):
         self.obj = obj
