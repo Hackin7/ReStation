@@ -13,13 +13,12 @@ class CheckImageNotAbuse(ShowScreen):
         self.obj = obj
         obj.toPut = True
     def buttonRight(self):
-        intf.im.check()
         self.obj.image = intf.im.image
         def run():
+            intf.im.check()
             if intf.im.isAbuse:
                 popupMessage("This Object is not accpetable\nfor the time being.\nSorry for the inconvenience")
             else:
-                load.dismiss()
                 sm.get_screen(self.toScreen).update(self.obj)
                 sm.current=self.toScreen
         loading(run)
