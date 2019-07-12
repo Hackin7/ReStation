@@ -9,21 +9,47 @@ from kivy.uix.popup import Popup
 from kivy.uix.vkeyboard import VKeyboard
 
 from kivy.config import Config
-Config.set('graphics', 'width', '800')
-Config.set('graphics', 'height', '480')
+width = 800
+height = 480
+Config.set('graphics', 'width', str(width))
+Config.set('graphics', 'height', str(height))
 
 transitioner=SlideTransition(direction="up")
 sm = ScreenManager(transition=transitioner)
 class BoxLayout(BoxLayout):
     def __init__(self, **kwargs):
-        super(BoxLayout, self).__init__(padding=[10,10], spacing=10,**kwargs)
-        
+        super(BoxLayout, self).__init__(padding=[10,10], 
+                    spacing=10,**kwargs)
+class VKeyboard(VKeyboard):
+    def __init__(self, **kwargs):
+        super(VKeyboard, self).__init__(width=width-15,**kwargs)
 def popupMessage(text="An Error has occured.", title="Error", auto_dismiss=True):
     PopupMessage(text, title, auto_dismiss)
-
+    
+from kivy.uix.gridlayout import GridLayout
+def objectDisplayLayout(obj, booked=True):
+        rightcol = 0.25
+        leftcol = 1-rightcol
+        
+        objOut = GridLayout(cols=2, padding=[10,10])
+        def templateLabel(text,x=1,y=0.5):
+            l = Label(text=text, size_hint_x=x,size_hint_y=y, font_size="20dp")
+            l.text_size = (int(width*x),l.size[1])
+            return l
+        objOut.add_widget(templateLabel('Object ID Given:',rightcol))
+        objOut.add_widget(templateLabel(obj.id,leftcol))
+        objOut.add_widget(templateLabel('Name:',rightcol))
+        objOut.add_widget(templateLabel(obj.name,leftcol))
+        objOut.add_widget(templateLabel('Description:',rightcol,2.0))
+        objOut.add_widget(templateLabel(obj.description,leftcol,2.0))
+        if booked:
+            objOut.add_widget(templateLabel('Booked:',rightcol))
+            objOut.add_widget(templateLabel(str(obj.hasPin),leftcol))       
+        return objOut
+        
 class PopupMessage:
     def __init__(self,text="An Error has occured.", title="Error", auto_dismiss=True):
-        self.content = Label(text=text)
+        self.content = Label(text=text,font_size="20dp")
         self.popup = Popup(title=title, content=self.content, 
                             size_hint=(None, None),size=(400, 400),
                             auto_dismiss=auto_dismiss)
@@ -40,7 +66,7 @@ def loading(run, args=()):
     x = threading.Thread(target=toRun)
     x.start()
 def confirmPopup(text="Are you sure?", title="Error", leftScreen="",rightScreen=""):
-    main = Label(text=text)
+    main = Label(text=text,font_size="20dp")
     
     bottom = BottomBar("No", "Yes", leftScreen, rightScreen)
     
@@ -57,7 +83,8 @@ class MyButton(Button):
     def __init__(self, page="", function=lambda:None, **kwargs):
         self.page = page
         self.function = function
-        super(MyButton, self).__init__(size_hint=(.7, .7), **kwargs)
+        super(MyButton, self).__init__(size_hint=(.7, .7),
+                        font_size="20dp", **kwargs)
     def on_press(self):
         self.function()
         if self.page != "":

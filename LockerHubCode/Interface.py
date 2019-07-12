@@ -61,7 +61,7 @@ class DataBaseTemplate:
         obj = ReuseableObject()
         obj.name = "Name"
         obj.image = "ImageData"
-        obj.description = "This is a dummy object"
+        obj.description = "This is a dummy object, and it has very very long text for it to be used in testing"
         return obj
         
     def objInDatabase(self,objID):
@@ -71,7 +71,7 @@ class DataBaseTemplate:
         obj = ReuseableObject()
         obj.name = "Name"
         obj.image = "ImageData"
-        obj.description = "This is a dummy object"
+        obj.description = "This is a dummy object, and it has very very long text for it to be used in testing"
         return obj
     def writeOut(self,obj):
         print("Writing Out Object")

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from BasicUI import *
-from kivy.uix.gridlayout import GridLayout
 import Interface as intf
 import sys
 sys.path.append('./ImageRecognition')
@@ -17,7 +16,7 @@ class CheckImageNotAbuse(ShowScreen):
         def run():
             intf.im.check()
             if intf.im.isAbuse:
-                popupMessage("This Object is not accpetable\nfor the time being.\nSorry for the inconvenience")
+                popupMessage("This Object is not acceptable\nfor the time being.\nSorry for the inconvenience")
             else:
                 sm.get_screen(self.toScreen).update(self.obj)
                 sm.current=self.toScreen
@@ -93,9 +92,9 @@ class PutObjectDetails(Screen):
         self.objDetails.bind(focus=self.on_focus(1))
         
         inputIn = GridLayout(cols=2)
-        inputIn.add_widget(Label(text='Name:', size_hint_x=0.25, font_size="20dp"))
+        inputIn.add_widget(Label(text='Name:', size_hint_x=0.25,size_hint_y=0.5, font_size="20dp"))
         inputIn.add_widget(self.objName)
-        inputIn.add_widget(Label(text='Description:', size_hint_x=0.25, font_size="20dp"))
+        inputIn.add_widget(Label(text='Description:', size_hint_x=0.25,size_hint_y=2.0,font_size="20dp"))
         inputIn.add_widget(self.objDetails)
         
         key = VKeyboard()
@@ -114,12 +113,7 @@ class ConfirmObjDetails(ShowScreen):
     def __init__(self, **kwargs):
         super(ConfirmObjDetails, self).__init__(**kwargs)
     def objectDisplayLayout(self, obj):
-        objOut = GridLayout(cols=2)
-        objOut.add_widget(Label(text='Name:', size_hint_x=0.25, font_size="20dp"))
-        objOut.add_widget(Label(text=obj.name,halign="left"))
-        objOut.add_widget(Label(text='Description:', size_hint_x=0.25,size_hint_y=2.0, font_size="20dp"))
-        objOut.add_widget(Label(text=obj.description,halign="left"))
-        return objOut
+        return objectDisplayLayout(obj, False)
     def update(self,obj):
         self.obj = obj
         self.obj.id = intf.hl.randomLocker()
@@ -133,7 +127,7 @@ class ConfirmObjDetails(ShowScreen):
         self.rightFunction = passObject
         self.generateLayout()
     def generateLayout(self):
-        r0 = Label(text=self.mainText)
+        r0 = Label(text=self.mainText, size_hint_y=0.5)
         r0.font_size = '25dp'
         r1 = self.objectDisplayLayout(self.obj)
         r2 = bottomBar(self.leftText, self.rightText, 
@@ -183,12 +177,6 @@ class ShowObjectDetails(ShowScreen):
         super(ShowObjectDetails, self).__init__(**kwargs)
     def update(self,obj):
         self.obj = obj
-        details = f"""
-        Object ID:{obj.id}
-        Name: {self.obj.name}
-        Description: {self.obj.description}
-        Booked: {self.obj.hasPin}"""
-        
         if self.obj.hasPin:
             passScreen = "get3"
         else:
@@ -197,21 +185,11 @@ class ShowObjectDetails(ShowScreen):
             sm.get_screen("unlock").update(self.obj)
             if self.obj.hasPin:
                 sm.get_screen("get3").update(self.obj)
-        self.mainText = details
         self.rightScreen = passScreen
         self.rightFunction = passObject
         self.generateLayout()
     def objectDisplayLayout(self, obj):
-        objOut = GridLayout(cols=2)
-        objOut.add_widget(Label(text='Object ID:', size_hint_x=0.25, font_size="20dp"))
-        objOut.add_widget(Label(text=obj.id,halign="left"))
-        objOut.add_widget(Label(text='Name:', size_hint_x=0.25, font_size="20dp"))
-        objOut.add_widget(Label(text=obj.name,halign="left"))
-        objOut.add_widget(Label(text='Description:', size_hint_x=0.25,size_hint_y=2.0, font_size="20dp"))
-        objOut.add_widget(Label(text=obj.description,halign="left"))
-        objOut.add_widget(Label(text='Booked:', size_hint_x=0.25, font_size="20dp"))
-        objOut.add_widget(Label(text=str(obj.hasPin),halign="left"))
-        return objOut
+        return objectDisplayLayout(obj)
         
     def generateLayout(self):
         r1 = self.objectDisplayLayout(self.obj)
