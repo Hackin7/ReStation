@@ -110,14 +110,18 @@ class ConfirmObjDetails(ShowScreen):
     obj = intf.ReuseableObject()
     def __init__(self, **kwargs):
         super(ConfirmObjDetails, self).__init__(**kwargs)
+    def objectDisplayLayout(self, obj):
+        objOut = GridLayout(cols=2)
+        objOut.add_widget(Label(text='Name:', size_hint_x=0.25, font_size="20dp"))
+        objOut.add_widget(Label(text=obj.name,halign="left"))
+        objOut.add_widget(Label(text='Description:', size_hint_x=0.25,size_hint_y=2.0, font_size="20dp"))
+        objOut.add_widget(Label(text=obj.description,halign="left"))
+        return objOut
     def update(self,obj):
         self.obj = obj
         self.obj.id = intf.hl.randomLocker()
         details = f"""
         Confirm Object Details:
-        Object ID:{self.obj.id}
-        Name: {self.obj.name}
-        Description: {self.obj.description}
         """
         def passObject():
             sm.get_screen(self.rightScreen).update(self.obj)
@@ -125,6 +129,19 @@ class ConfirmObjDetails(ShowScreen):
         self.mainText = details
         self.rightFunction = passObject
         self.generateLayout()
+    def generateLayout(self):
+        r0 = Label(text=self.mainText)
+        r0.font_size = '25dp'
+        r1 = self.objectDisplayLayout(self.obj)
+        r2 = bottomBar(self.leftText, self.rightText, 
+                       self.leftScreen, self.rightScreen, 
+                       self.leftFunction, self.rightFunction)
+        layout = BoxLayout(orientation='vertical')
+        layout.add_widget(r0)
+        layout.add_widget(r1)
+        layout.add_widget(r2)
+        self.clear_widgets()
+        self.add_widget(layout) 
 
 ###PutKey###############################################################
 class PutKey(PinEntry):
@@ -265,10 +282,10 @@ class CloseDoor(Screen):
     def update(self,obj):
         self.obj = obj
         self.toPut = self.obj.toPut
-        self.mainText = f"Please Close {obj.id}"
+        self.mainText = f"[size=50dp]Please Close {obj.id}[/size]"
         self.generateLayout()
         
-    def __init__(self,main="Please Close the Door",toScreen="menu",**kwargs):
+    def __init__(self,main="[size=50dp]Please Close the Door[/size]",toScreen="menu",**kwargs):
         super(CloseDoor, self).__init__(**kwargs)
         self.mainText = main
         self.toScreen = toScreen
@@ -297,7 +314,7 @@ put0 = ShowScreen(name='put0', main="[size=40dp]Have you already made\n a listin
 put1 = PutObjectDetails(name='put1')
 putkey = PutKey(name="putkey", toScreen="put2", text="Enter Registration ID:")
 put2 = ConfirmObjDetails(name='put2', leftScreen="menu", rightScreen="put3")
-put3 = CheckImageNotAbuse(name='put3', main="Take a Picture of the Item",
+put3 = CheckImageNotAbuse(name='put3', main="[size=50dp]Take a Picture of the Item[/size]",
                         left="Back",right="Ok",
                         leftScreen="menu",rightScreen="put3")
 

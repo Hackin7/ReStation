@@ -25,7 +25,8 @@ class ImageRecognition:
         self.isAbuse = False
 '''
 from classify_image import *
-allowed = ["radio"]
+maybe_download_and_extract()
+allowed = ["radio", "cellular phone","cell", "mobile computer", "handheld computer", "iPod", "casette","projector","television", "monitor","screen"]
 class ImageRecognition:
     isAbuse = False
     image = ""
@@ -34,14 +35,14 @@ class ImageRecognition:
         possiblePredictions=""
         listOfPredictions = []
         try:
-            os.system("raspistill -n -o /tmp/output.jpeg")
+            os.system("raspistill -o /tmp/output.jpeg")
             predictionsData = run_inference_on_image("/tmp/output.jpeg")
             for prediction, score in predictionsData:
                 possiblePredictions += prediction+","
             listOfPredictions = [i.strip() for i in possiblePredictions.split(",")]
         except:
-            pass
-        print(predictionsData)
+            listOfPredictions = []
+        print(listOfPredictions)
         commonThings = list(set(listOfPredictions).intersection(allowed))
         if len(commonThings) > 0:
             self.isAbuse = False
