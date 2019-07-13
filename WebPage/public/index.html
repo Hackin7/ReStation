@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Re-Station</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	
+  	<link rel="stylesheet" type="text/css" href="css/header.css">
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+  	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+</head>
+
+<!-- <button type="button" onclick="readFile('qBOdQwYTD681fNS3796Y')">Click</button> -->
+
+<body>
+
+	<header>
+		
+	</header>
+
+	<div class="jumbotron main-banner" style="background-image: url(images/ririka2.jpg)">
+		<div id="jumbotron-text">
+			<h1 class="display-1">RE-STATION</h1>
+			<p>Who knew Recycling could get this rewarding?</p>
+		</div>
+	</div>
+
+	<!-- <button type="button" onclick="updateUserDisplayName('Yeet');">Test</button> -->
+
+	<div class="container-fluid body-container">
+		<div class="row">
+			<div class="col body-text">
+				<div>
+					<h2 class="display-4">Do your part for society!</h2>
+				</div>
+				<div>
+					<p>Apart from breathing life into pre-loved items, you get rewarded for it too!</p>
+					<p>Sign up now to start collecting your rewards!</p>
+				</div>
+			</div>
+			
+			<div class="col">
+				<div class="card card-body dark-card">
+					<h4 class="card-title">Sign up now, it's free!</h4>
+					<div>
+						<p>It only takes seconds.</p>
+					</div>
+					<button class="btn btn-primary" data-toggle="modal" data-target="#signup-modal">Sign Up Now!</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid body-container">
+		<div class="card-columns">
+			<div class="col card">
+				<div class="card-body">
+					<h2 class="card-title text-dark">Our Cause</h2>
+					<p class="text-dark card-text">Learn more on the current climate crisis and why the 3Rs are so important</p>
+					<button class="btn btn-info">Learn More!</button>
+				</div>
+			</div>
+			<div class="col card">
+				<div class="card-body">
+					<h2 class="card-title text-dark">View Listings</h2>
+					<p class="text-dark card-text">Breathe new life into used everyday objects and cut down on wastage today</p>
+					<button class="btn btn-info">Start Claiming!</button>
+				</div>
+			</div>
+			<div class="col card">
+				<div class="card-body">
+					<h2 class="card-title text-dark">Get Rewarded</h2>
+					<p class="text-dark card-text">Get rewarded for the milestones you reach while doing your part in reusing</p>
+					<button class="btn btn-info">View the Rewards!</button>
+				</div>
+			</div>
+		</div>
+		<p class="text-center">...And many more!</p>
+	</div>
+
+	<div id="carousel" class="carousel slide" data-ride="carousel">
+
+	  	<!-- Indicators -->
+		<ul class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel" data-slide-to="1"></li>
+			<li data-target="#carousel" data-slide-to="2"></li>
+		</ul>
+
+		<!-- The slideshow -->
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<div class="img-div mx-auto d-block">
+					<img src="images/emma.jpg" alt="Emma, The Promised Neverland" class="rounded">	
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="img-div mx-auto d-block">
+					<img src="images/yumeko.jpg" alt="Yumeko, Kakegurui" class="rounded">
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="img-div mx-auto d-block">
+					<img src="images/ririka.jpg" alt="Ririka, Kakugurui" class="rounded">
+				</div>
+			</div>
+		</div>
+
+		<!-- Left and right controls -->
+		<a class="carousel-control-prev" href="#carousel" data-slide="prev">
+			<span class="carousel-control-prev-icon"></span>
+		</a>
+		<a class="carousel-control-next" href="#carousel" data-slide="next">
+			<span class="carousel-control-next-icon"></span>
+	  	</a>
+	</div>
+
+	<div class="spacer"></div>
+
+	<div class="page-footer font-small bg-primary text-center" style="border: 1px solid transparent">
+		<div class="row container-fluid" style="padding: 1%;">
+			<h4 class="col">RE-STATION</h4>
+			<h4 class="col">TechNoobs</h4>
+			<h4 class="col">CXA 2019 Open Category</h4>
+		</div>
+		<p>All images used are for educational purposes only and belong to their respective owners. &#x24B8;No Copyright! 2019	</p>
+	</div>
+
+
+	<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/misc.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+	<!-- <script type="text/javascript" src="js/readFile.js"></script> -->
+
+
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+  <script src="js/firebaseConfig.js"></script>
+  
+
+
+</body>
+</html>

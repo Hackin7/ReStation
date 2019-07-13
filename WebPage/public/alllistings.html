@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Re-Station</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+</head>
+
+
+<body>
+    <header>
+        
+    </header>
+
+    <div class="jumbotron main-banner">
+        <div id="jumbotron-text">
+            <h1 class="display-1">All Listings</h1>
+            <p>Give these items a home!</p>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <h2 class="display-4">Item Listings</h2>
+            <p>Here consists of all the listed items</p>
+            <p>Breathe life into them by claiming them from their respective lockers!</p>
+        </div>
+
+        <div class="row justify-content-center mx-5" id="all-listings">
+            <div class="col-3 p-2">
+                <div class="card">
+                    <img src="images/emma.jpg" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">1st Slide</h2>
+                        <p class="text-dark card-text">This category tests you on your Computing fundamental knowledge</p>
+                        <p class="text-info card-text">Asienwald</p>
+                        <a class="btn btn-info stretched-link" onclick="() => { sayFuck('Yeetus') }">Start Quiz</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 p-2">
+                <div class="card">
+                    <img src="" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">1st Slide</h2>
+                        <p class="text-dark card-text">This category tests you on your Computing fundamental knowledge</p>
+                        <a class="btn btn-info stretched-link" href="#">Start Quiz</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 p-2">
+                <div class="card">
+                    <img src="" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">1st Slide</h2>
+                        <p class="text-dark card-text">This category tests you on your Computing fundamental knowledge</p>
+                        <a class="btn btn-info stretched-link" href="#">Start Quiz</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 p-2">
+                <div class="card">
+                    <img src="" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">1st Slide</h2>
+                        <p class="text-dark card-text">This category tests you on your Computing fundamental knowledge</p>
+                        <a class="btn btn-info stretched-link" href="#">Start Quiz</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 p-2">
+                <div class="card">
+                    <img src="" class="card-img-top" alt="Listing Image">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">1st Slide</h2>
+                        <p class="text-dark card-text">This category tests you on your Computing fundamental knowledge</p>
+                        <a class="btn btn-info stretched-link" href="#">Start Quiz</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <button id="yeet">Click me</button>
+
+
+        
+    </div>
+
+
+
+
+    <div class="spacer"></div>
+
+    <div class="page-footer font-small bg-primary text-center" style="border: 1px solid transparent">
+        <div class="row container-fluid" style="padding: 1%;">
+            <h4 class="col">RE-STATION</h4>
+            <h4 class="col">TechNoobs</h4>
+            <h4 class="col">CXA 2019 Open Category</h4>
+        </div>
+        <p>All images used are for educational purposes only and belong to their respective owners. &#x24B8;No Copyright! 2019  </p>
+    </div>
+
+
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/misc.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <!-- <script type="text/javascript" src="js/readFile.js"></script> -->
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-storage.js"></script>
+  <script src="js/firebaseConfig.js"></script>
+
+  <script type="text/javascript" src="js/alllistings.js"></script>
+  
+  <script type="text/javascript">
+        setJumbotronImg("yeet");
+    </script>
+
+
+</body>
+</html>

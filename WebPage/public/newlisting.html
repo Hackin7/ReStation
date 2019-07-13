@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KanQuiz</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
+  	<link rel="stylesheet" type="text/css" href="css/header.css">
+
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+</head>
+<body>
+	<header></header>
+
+	<div class="jumbotron main-banner">
+		<div id="jumbotron-text">
+			<h1 class="display-1">List an Item</h1>
+			<p>A small step goes a long way.</p>
+		</div>
+	</div>
+
+	<!-- <button type="button" onclick="writeFile()">CliCK!</button> -->
+
+	<div class="container-fluid my-5" id="add-quiz-form">
+		<div class="text-center">
+			<p class="display-5">List out unused item for others to give it a new home!</p>
+			<p class="text-info">Just place your item into the nearest locker from you and that's it!</p>
+			<p class="text-info">Earn 50 milestone points by confirming your listings!</p>
+		</div>
+		<div id="new-quiz-error-msg" class="row my-2">
+		</div>
+		<div class="row mb-3">
+			<div class="form-group col-8 mx-auto">
+				<label for="title"><strong>Title of Listing</strong></label>
+				<input type="text" class="form-control" id="title-input" placeholder="Write your title here..">
+			</div>
+		</div>
+
+		<div class="row mb-4">
+			<div class="form-group col-8 mx-auto">
+				<label for="img-file-input"><strong>Image of Item</strong></label>
+				<div class="custom-file mb-3">
+			      <input type="file" class="custom-file-input form-control" id="img-file-input" accept=".jpeg,.png,.jpg,.gif,.svg">
+			      <label class="custom-file-label" for="img-file-input">Choose file</label>
+			    </div>
+			</div>
+			
+		</div>
+		<div class="row mb-3">
+			<div class="form-group col-8 mx-auto">
+				<label for="descrip-input"><strong>Description </strong></label>
+				<textarea class="form-control" rows="5" id="descrip-input" placeholder="Provide a short description so others can understand your item better" id="descrip-input"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-8 mx-auto">
+				<div class="form-group">
+					<label for="location-input"><strong>Locker Locations</strong></label>
+					<select class="form-control" id="location-input">
+						<option value="North">North</option>
+						<option value="East">East</option>
+						<option value="South">South</option>
+						<option value="West">West</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<button class="btn btn-primary mx-auto d-block" onclick="addNewListing()">List it Now!</button>
+		</div>
+
+
+
+		<!-- 
+		<div class="my-5" id="questions-wrapper">
+			<p class="display-4 text-center"><strong>Questions </strong></p>
+
+			<div class="row justify-content-center my-5">
+				<div class="col-4">
+					<div class="card" id="q1">
+						<div class="card-body">
+							<h2 class="card-title text-dark">Question 1</h2>
+							<div class="form-group">
+								<textarea class="form-control" rows="3" placeholder="Type your question here" id="qns"></textarea>
+							</div>
+							<p class="text-dark text-bold"><strong>Question Choices</strong></p>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 1">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 2">	
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 3">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 4">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p class="text-dark"><strong>Answer</strong></p>
+								<select class="form-control" id="ans">
+									<option value="0">Choice 1</option>
+									<option value="1">Choice 2</option>
+									<option value="2">Choice 3</option>
+									<option value="3">Choice 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="card" id="q2">
+						<div class="card-body">
+							<h2 class="card-title text-dark">Question 2</h2>
+							<div class="form-group">
+								<textarea class="form-control" rows="3" placeholder="Type your question here" id="qns"></textarea>
+							</div>
+							<p class="text-dark text-bold"><strong>Question Choices</strong></p>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 1">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 2">	
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 3">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 4">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p for="ans" class="text-dark"><strong>Answer</strong></p>
+								<select class="form-control" id="ans">
+									<option value="0">Choice 1</option>
+									<option value="1">Choice 2</option>
+									<option value="2">Choice 3</option>
+									<option value="3">Choice 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center my-5">
+				<div class="col-4">
+					<div class="card" id="q3">
+						<div class="card-body">
+							<h2 class="card-title text-dark">Question 3</h2>
+							<div class="form-group">
+								<textarea class="form-control" rows="3" placeholder="Type your question here" id="qns"></textarea>
+							</div>
+							<p class="text-dark text-bold"><strong>Question Choices</strong></p>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 1">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 2">	
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 3">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 4">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p class="text-dark"><strong>Answer</strong></p>
+								<select class="form-control" id="ans">
+									<option value="0">Choice 1</option>
+									<option value="1">Choice 2</option>
+									<option value="2">Choice 3</option>
+									<option value="3">Choice 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="card" id="q4">
+						<div class="card-body">
+							<h2 class="card-title text-dark">Question 4</h2>
+							<div class="form-group">
+								<textarea class="form-control" rows="3" placeholder="Type your question here" id="qns"></textarea>
+							</div>
+							<p class="text-dark text-bold"><strong>Question Choices</strong></p>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 1">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 2">	
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 3">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 4">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p for="ans" class="text-dark"><strong>Answer</strong></p>
+								<select class="form-control" id="ans">
+									<option value="0">Choice 1</option>
+									<option value="1">Choice 2</option>
+									<option value="2">Choice 3</option>
+									<option value="3">Choice 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center my-5">
+				<div class="col-4">
+					<div class="card" id="q5">
+						<div class="card-body">
+							<h2 class="card-title text-dark">Question 5</h2>
+							<div class="form-group">
+								<textarea class="form-control" rows="3" placeholder="Type your question here" id="qns"></textarea>
+							</div>
+							<p class="text-dark text-bold"><strong>Question Choices</strong></p>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 1">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 2">	
+								</div>
+							</div>
+							<div class="row my-2">
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 3">								
+								</div>
+								<div class="col">
+									<input class="form-control" type="text" class="choices" placeholder="Choice 4">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<p class="text-dark"><strong>Answer</strong></p>
+								<select class="form-control" id="ans">
+									<option value="0">Choice 1</option>
+									<option value="1">Choice 2</option>
+									<option value="2">Choice 3</option>
+									<option value="3">Choice 4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-center my-4" id="add-quiz-error-msg">
+				
+			</div>
+
+			<div class="text-center">
+				<button class="btn btn-primary" type="button" onclick="writeFile()">Submit Quiz</button>
+			</div>
+		</div>  -->
+
+		<!-- <form method="get" action="js/test.php">
+			<input type="text" name="uid" placeholder="oi">
+			<input type="Submit">
+		</form> -->
+</div>
+
+	
+
+
+	<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/misc.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+	<!-- <script type="text/javascript" src="js/readFile.js"></script> -->
+
+
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+  <script src="js/firebaseConfig.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-storage.js"></script>
+
+
+  <script type="text/javascript" src="js/newlisting.js"></script>
+ 
+
+	<script type="text/javascript">
+		setJumbotronImg("emma");
+	</script>
+
+</body>
+</html>

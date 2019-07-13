@@ -295,7 +295,7 @@ class CloseDoor(Screen):
 mainScreen = ShowScreen(name='menu', 
                         main="[size=50dp]Welcome to the\nReuse Station[/size]",
                         left="Put Item",right="Get Item",
-                        leftScreen="put0",rightScreen="get1")
+                        leftScreen="put1",rightScreen="get1")
 put0 = ShowScreen(name='put0', main="[size=40dp]Have you already made\n a listing online?[/size]",
                         left="No",right="Yes",
                         leftScreen="put1",rightScreen="putkey")

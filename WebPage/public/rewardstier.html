@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KanQuiz</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" type="text/css" href="css/main.css">
+  	<link rel="stylesheet" type="text/css" href="css/header.css">
+
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+</head>
+<body>
+	<header></header>
+
+	<div class="jumbotron main-banner">
+		<div id="jumbotron-text">
+			<h1 class="display-1">Rewards Tier</h1>
+			<p>You reap what you sow.</p>
+		</div>
+	</div>
+
+	<div class="container my-5 bg-dark p-5 rounded text-white">
+		<h4 class="display-4 text-center mb-5 text-info">We reward you for your efforts</h4>
+		<div class="text-center">
+			<p>The milestones reward system was implemented to encourage the act of Re-Using amongst today's society</p>
+			<p>With every item you list, milstone points are rewarded which can be exchanged with many rewards!</p>
+		</div>
+		<div class="spacer"></div>
+
+		<label class="display-4 my-4"><strong>Milestone Chart</strong></label>
+		<div class="bg-white border border-info">
+			<table class="table table-hover">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">Milestone Level</th>
+			      <th scope="col">Points to Attain</th>
+			      <th scope="col">Reward</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row">1</th>
+			      <td>200</td>
+			      <td>1x $5 NTUC Voucher</td>
+			    </tr>
+			    <tr>
+			      <th scope="row">2</th>
+			      <td>500</td>
+			      <td>1x $10 Starbucks Card</td>
+			    </tr>
+			    <tr>
+			      <th scope="row">3</th>
+			      <td>1000</td>
+			      <td>1x $5 NTUC Voucher</td>
+			    </tr>
+			     <tr>
+			      <th scope="row">4</th>
+			      <td>2000</td>
+			      <td>1x $10 KOI Card</td>
+			    </tr>
+			     <tr>
+			      <th scope="row">5</th>
+			      <td>5000</td>
+			      <td>1x $5 NTUC Voucher</td>
+			    </tr>
+			     <tr>
+			      <th scope="row">6</th>
+			      <td>10000</td>
+			      <td>1x $20 Google Play Gift Card</td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+
+		<div class="spacer"></div>
+		<label class="display-4 my-4"><strong>Points Chart</strong></label>
+		<div>
+			<div class="bg-white">
+				<table class="table table-hover">
+				  <thead class="thead bg-info">
+				    <tr>
+				      <th scope="col">Action</th>
+				      <th scope="col">Points Obtained</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <th scope="row">List an Item<span class="text-danger">*</span></th>
+				      <td>50</td>
+				    </tr>
+				    <tr>
+				      <th scope="row">Claim an Item</th>
+				      <td>10</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+			<p class="text-danger">**Items listed will have to be confirmed before its counted</p>
+		</div>
+
+		<div class="my-5 text-center">
+			<h3>It's never too late to declutter!</h3>
+			<button class="btn btn-primary" onclick="toMilestones()">View your Milestone rewards!</button>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<div class="page-footer font-small bg-primary text-center" style="border: 1px solid transparent">
+		<div class="row container-fluid" style="padding: 1%;">
+			<h4 class="col">RE-STATION</h4>
+			<h4 class="col">TechNoobs</h4>
+			<h4 class="col">CXA 2019 Open Category</h4>
+		</div>
+		<p>All images used are for educational purposes only and belong to their respective owners. &#x24B8;No Copyright! 2019	</p>
+	</div>
+
+	<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/misc.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+	<!-- <script type="text/javascript" src="js/readFile.js"></script> -->
+
+
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+  <script src="js/firebaseConfig.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-storage.js"></script>
+
+
+  <script type="text/javascript" src="js/milestones.js"></script>
+ 
+
+	<script type="text/javascript">
+		setJumbotronImg("yumeko");
+	</script>
+
+</body>
+</html>

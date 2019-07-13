@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Re-Station</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+</head>
+
+
+<body>
+    <header>
+        
+    </header>
+
+    <h2 class="text-center display-4 text-info my-5">Listing Details</h2>
+
+    <div class="container my-5 bg-dark p-5 rounded text-white">
+        <h2 class="display-4 text-center mb-5" id="list-title"><strong>TITLE</strong></h2>
+        <div class="img-div mx-auto d-block my-5" style="width: 50vw;">
+            <img src="images/emma.jpg" id="list-img">
+        </div>
+        <div class="row my-2">
+            <div class="col-6 mx-auto text-center">
+                <label>Date Time Listed:</label>
+                <p id="list-datetime">DATETIME</p>
+            </div>
+            <div class="col-6 mx-auto text-center">
+                <label>Date Time to Expiry: </label>
+                <p id="list-datetime-expiry">DATETIME EXPIRY</p>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-8 mx-auto text-center alert-info rounded p-3">
+                <strong>Listed By:</strong>
+                <p id="list-uid">USERNAME</p>
+            </div>
+        </div>
+        <hr class="bg-white">
+        <div class="row my-5">
+            <div class="col-8 mx-auto">
+                <label class="display-4 mb-3"><strong>Description: </strong></label>
+                <p id="list-descrip">DESCRIPTION TEXT</p>
+            </div>
+        </div>
+        <hr class="bg-white">
+        <div class="row my-5 text-dark display-5 justify-content-center">
+            <div class="col-4 mx-auto bg-white rounded p-4">
+                <strong>Locker Location: </strong>
+                <p id="list-lockerLoc">LOCKER LOCATION</p>
+            </div>
+            <div class="col-4 mx-auto bg-white rounded p-4">
+                <strong>Locker Number: </strong>
+                <p id="list-lockerNum">LOCKER NUMBER</p>
+            </div>
+        </div>
+        <div class="mt-5">
+            <button class="btn btn-danger btn-lg mx-auto d-block" id="claim-item-button">CLAIM ITEM</button>
+        </div>
+    </div>
+
+
+
+    <div class="page-footer font-small bg-primary text-center" style="border: 1px solid transparent">
+        <div class="row container-fluid" style="padding: 1%;">
+            <h4 class="col">RE-STATION</h4>
+            <h4 class="col">TechNoobs</h4>
+            <h4 class="col">CXA 2019 Open Category</h4>
+        </div>
+        <p>All images used are for educational purposes only and belong to their respective owners. &#x24B8;No Copyright! 2019  </p>
+    </div>
+
+
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/misc.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <!-- <script type="text/javascript" src="js/readFile.js"></script> -->
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-storage.js"></script>
+  <script src="js/firebaseConfig.js"></script>
+
+<!--   <script type="text/javascript" src="js/alllistings.js"></script> -->
+  <script type="text/javascript" src="js/showlisting.js"></script>
+  
+  <script type="text/javascript">
+        setJumbotronImg("ririka2");
+        
+var pin = Math.floor((Math.random() * 100) + 1);
+function claimObject(){
+    //alert(listedItem.id);
+    
+    if (listedItem.claimed == true){
+        listedItem.claimed = false;
+    }else{
+        listedItem.claimed = true;
+        listedItem.pin = pin;
+    }
+    
+    
+    db.collection('listings').doc(listedItem.id).update({"claimed":listedItem.claimed, "pin":pin })
+    
+    claimedUpdate();
+    //alert(listedItem.id);    
+}
+function claimedUpdate(){
+    if (listedItem.claimed == true){//.data()
+        alert("Pin to unlock is "+listedItem.pin);
+        document.getElementById("claim-item-button").innerHTML = "Claimed";
+    }else{
+        document.getElementById("claim-item-button").innerHTML = "CLAIM ITEM";
+    }
+}
+document.getElementById("claim-item-button").addEventListener("click", claimObject);
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+.card-carousel{
+	width: 75vw;
+}
+.card-carousel-indicators{
+	position: absolute;
+	bottom: -10%;
+}
