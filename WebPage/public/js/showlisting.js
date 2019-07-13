@@ -19,7 +19,7 @@ function showListing(){
             initListingDetails(doc.data());
             listedItem = doc;
             listedItem.claimed = listedItem.data().claimed;
-            listedItem.pin = listedItem.data().pin;
+            listedItem.pin = listedItem.data().keyPin;
             claimedUpdate();
         })
     })

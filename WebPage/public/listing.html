@@ -113,7 +113,7 @@ function claimObject(){
     }
     
     
-    db.collection('listings').doc(listedItem.id).update({"claimed":listedItem.claimed, "pin":pin })
+    db.collection('listings').doc(listedItem.id).update({"claimed":listedItem.claimed, "keyPin":pin })
     
     claimedUpdate();
     //alert(listedItem.id);    

@@ -16,6 +16,9 @@ Config.set('graphics', 'height', str(height))
 
 transitioner=SlideTransition(direction="up")
 sm = ScreenManager(transition=transitioner)
+class Label(Label):
+    def __init__(self,text="", **kwargs):
+        super(Label, self).__init__(text = str(text),**kwargs)
 class BoxLayout(BoxLayout):
     def __init__(self, **kwargs):
         super(BoxLayout, self).__init__(padding=[10,10], 

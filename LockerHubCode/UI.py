@@ -215,7 +215,7 @@ class Verification(PinEntry):
         pin = self.pinInput.text
         if len(pin) == 0:
             popupMessage("No Pin Entered!")
-        elif pin != self.obj.pin:
+        elif str(pin) != str(self.obj.pin):
             popupMessage("Pin Incorrect!")
         elif self.toScreen != "":
             #sm.get_screen(self.toScreen).update(self.obj, True)
