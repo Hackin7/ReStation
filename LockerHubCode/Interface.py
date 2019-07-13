@@ -27,7 +27,7 @@ class ImageRecognition:
 '''
 from classify_image import *
 maybe_download_and_extract()
-allowed = ["radio", "cellular phone","cell", "mobile computer", "handheld computer", "iPod", "casette","projector","television", "monitor","screen"]
+allowed = ["radio", "cellular phone","cell", "mobile computer", "handheld computer", "iPod", "casette","projector","television", "monitor","screen",'punching bag', 'punch bag', 'punching ball', 'punchball', 'balloon', 'hair spray', 'bathing cap', 'swimming cap', 'seat belt', 'seatbelt',]
 class ImageRecognition:
     isAbuse = False
     image = ""
@@ -82,6 +82,15 @@ class DataBase(DataBaseTemplate):
     def __init__(self):
         self.fireDB = firestore.client()
         self.retrieveWholeDatabase()
+    def registrationInDatabase(self,ID):
+        return True
+    def getRegistration(self,ID):
+        obj = ReuseableObject()
+        obj.name = "Name"
+        obj.image = "ImageData"
+        obj.description = "This is a dummy object, and it has very very long text for it to be used in testing"
+        return obj
+        
     def retrieveWholeDatabase(self):
         self.docs = self.fireDB.collection(u'listings').get()
     def objInDatabase(self,objID):
@@ -110,6 +119,7 @@ class DataBase(DataBaseTemplate):
     def writeOut(self,obj):
         self.retrieveWholeDatabase()
         doc_ref = self.fireDB.collection(u'listings').document()
+        destination_blob_name = obj.name+obj.id+".jpeg"
         doc_ref.set({
             u'claimed': False,
             u'confirmed': False,
@@ -117,9 +127,21 @@ class DataBase(DataBaseTemplate):
             u'datetime': None,
             u'lockerLocation': 'South',
             u'lockerNumber': str(obj.id),
-            u'title':obj.name
+            u'title':obj.name,
+            u'imagePath':destination_blob_name
         })
+        
+        #Image
+        #firebase_admin.initialize_app(cred, {
+        #    'storageBucket': '<BUCKET_NAME>.appspot.com'
+        #})
+        '''
+        bucket = storage.bucket()
+        blob = bucket.blob(destination_blob_name)
+        blob.upload_from_filename("/tmp/output.jpeg")#source_file_name)
+        
         print("Write Out")
+        '''
     def removeObject(self, obj):
         self.retrieveWholeDatabase()
         for doc in self.docs:
@@ -137,6 +159,13 @@ try:
     # Use a service account
     cred = credentials.Certificate('./restation-8e253-526f5f260257.json')
     firebase_admin.initialize_app(cred)
+    '''
+    from firebase_admin import storage
+    #from google.cloud import storage
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': 'gs://test-d909a.appspot.com'
+    })
+    '''
     db = DataBase()
 except:
     print("Using Dummy Database")
