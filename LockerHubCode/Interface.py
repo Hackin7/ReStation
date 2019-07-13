@@ -96,14 +96,15 @@ class DataBase(DataBaseTemplate):
         for doc in self.docs:
             if str(doc.to_dict().get('lockerNumber')) == str(objID):
                 break
-        obj = ReuseableObject()
+        obj = ReuseableObject() 
+        obj.id = doc.to_dict().get('lockerNumber')
         obj.name = doc.to_dict().get('title')
+        obj.description = doc.to_dict().get("descrip")
         obj.pin = doc.to_dict().get("keyPin")
         if obj.pin == None:
             obj.hasPin = False
         else:
             obj.hasPin = True
-        obj.description = doc.to_dict().get("descrip")
         return obj
         
     def writeOut(self,obj):
