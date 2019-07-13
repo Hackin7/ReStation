@@ -11,7 +11,8 @@ class ReuseableObject:
     #Used on running
     toPut=True
 
-    def __init__(self):pass
+    def __init__(self, id="123"):
+        self.id = id
     def checkPin(self,pin):
         if not havePin: return True
         elif havePin and pin == self.pin: return True
@@ -51,7 +52,6 @@ class ImageRecognition:
             
 im = ImageRecognition()
 
-
 class DataBaseTemplate:
     def __init__(self):pass
     
@@ -77,41 +77,66 @@ class DataBaseTemplate:
         print("Writing Out Object")
     def removeObject(self, obj):
         print("Removing Object",obj.id)
-        
+
 class DataBase(DataBaseTemplate):
+    def __init__(self):
+        self.fireDB = firestore.client()
+        self.retrieveWholeDatabase()
+    def retrieveWholeDatabase(self):
+        self.docs = self.fireDB.collection(u'listings').get()
     def objInDatabase(self,objID):
-        data = anvil.server.call("getListings")
-        for i in range(len(data)):
-            if str(data[i]['lockerNumber']) == objID:
+        self.retrieveWholeDatabase()
+        for doc in self.docs:
+            if str(doc.to_dict().get('lockerNumber')) == str(objID):
                 return True
         return False
         
     def readInObj(self,objID):
-        data = anvil.server.call("getListings")
-        for i in range(len(data)):
-            if str(data[i]['lockerNumber']) == objID:
+        self.retrieveWholeDatabase()
+        for doc in self.docs:
+            if str(doc.to_dict().get('lockerNumber')) == str(objID):
                 break
         obj = ReuseableObject()
-        obj.name = data[i]["title"]
-        #obj.image = "ImageData"
-        obj.pin = data[i]["keyPin"]
+        obj.name = doc.to_dict().get('title')
+        obj.pin = doc.to_dict().get("keyPin")
         if obj.pin == None:
             obj.hasPin = False
         else:
             obj.hasPin = True
-        obj.description = data[i]["description"]
+        obj.description = doc.to_dict().get("descrip")
         return obj
         
     def writeOut(self,obj):
-        anvil.server.call("addRowIntoListings", obj.name, None,\
-         obj.description,"WRYYYYYYYYYYY!",int(obj.id))
+        self.retrieveWholeDatabase()
+        doc_ref = self.fireDB.collection(u'listings').document()
+        doc_ref.set({
+            u'claimed': False,
+            u'confirmed': False,
+            u'descrip': obj.description,
+            u'datetime': None,
+            u'lockerLocation': 'South',
+            u'lockerNumber': str(obj.id),
+            u'title':obj.name
+        })
+        print("Write Out")
     def removeObject(self, obj):
-        print("Removing Object",obj.id)
+        self.retrieveWholeDatabase()
+        for doc in self.docs:
+            if str(doc.to_dict().get('lockerNumber')) == str(obj.id):
+                self.fireDB.collection(u'listings').document(doc.id).delete()
+                break#return True
+        print("Removing Object",obj.id, doc.id)
+        
+#Help From
+#https://firebase.google.com/docs/firestore/query-data/get-data
 try:
-    var = 1/0
-    #import anvil.server
-    #anvil.server.connect('NTC3GD3W7NUGZJYBRQS2L5KM-W5BOWXMEHYCQTPC4')
-    #db = DataBase()
+    import firebase_admin
+    from firebase_admin import credentials
+    from firebase_admin import firestore
+    # Use a service account
+    cred = credentials.Certificate('./restation-8e253-526f5f260257.json')
+    firebase_admin.initialize_app(cred)
+    db = DataBase()
 except:
     print("Using Dummy Database")
     db = DataBaseTemplate()
