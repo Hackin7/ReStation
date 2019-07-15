@@ -51,7 +51,7 @@ class ImageRecognition:
             self.isAbuse = True
             
 im = ImageRecognition()
-
+import datetime
 class DataBaseTemplate:
     def __init__(self):pass
     
@@ -78,10 +78,12 @@ class DataBaseTemplate:
     def removeObject(self, obj):
         print("Removing Object",obj.id)
 
+import datetime
 class DataBase(DataBaseTemplate):
     def __init__(self):
         self.fireDB = firestore.client()
         self.retrieveWholeDatabase()
+        self.bucket = storage.bucket()
     def registrationInDatabase(self,ID):
         return True
     def getRegistration(self,ID):
@@ -115,33 +117,27 @@ class DataBase(DataBaseTemplate):
         else:
             obj.hasPin = True
         return obj
-        
+    
+    def writeImage(self, imagePath, imageNewPath):
+        imageBlob = self.bucket.blob(imageNewPath) #Local Path
+        imageBlob.upload_from_filename(imagePath)      
     def writeOut(self,obj):
         self.retrieveWholeDatabase()
         doc_ref = self.fireDB.collection(u'listings').document()
-        destination_blob_name = obj.name+obj.id+".jpeg"
+        imageNewPath = "itemimages/"+doc_ref.id+".jpeg"
         doc_ref.set({
             u'claimed': False,
             u'confirmed': False,
             u'descrip': obj.description,
-            u'datetime': None,
+            u'datetime': datetime.datetime.now(),
             u'lockerLocation': 'South',
             u'lockerNumber': str(obj.id),
-            u'title':obj.name
-            #u'imagePath':destination_blob_name,
+            u'title':obj.name,
+            u'filePath':imageNewPath,
+            u'keyPin':0,
+            u'uid':"Anoynomous"
         })
-        
-        #Image
-        #firebase_admin.initialize_app(cred, {
-        #    'storageBucket': '<BUCKET_NAME>.appspot.com'
-        #})
-        '''
-        bucket = storage.bucket()
-        blob = bucket.blob(destination_blob_name)
-        blob.upload_from_filename("/tmp/output.jpeg")#source_file_name)
-        
-        print("Write Out")
-        '''
+        self.writeImage("/tmp/output.jpeg", imageNewPath)
     def removeObject(self, obj):
         self.retrieveWholeDatabase()
         for doc in self.docs:
@@ -156,21 +152,17 @@ try:
     import firebase_admin
     from firebase_admin import credentials
     from firebase_admin import firestore
+    from firebase_admin import storage
     # Use a service account
     cred = credentials.Certificate('./restation-8e253-526f5f260257.json')
-    firebase_admin.initialize_app(cred)
-    '''
-    from firebase_admin import storage
-    #from google.cloud import storage
     firebase_admin.initialize_app(cred, {
-        'storageBucket': 'gs://test-d909a.appspot.com'
+        'storageBucket': 'restation-8e253.appspot.com'
     })
-    '''
     db = DataBase()
 except:
-    print("Using Dummy Database")
+    print("Dummy Database")
     db = DataBaseTemplate()
-    
+
 import serial
 class HardwareLocker:
     number = 0
@@ -190,7 +182,7 @@ class HardwareLocker:
         except: 
             print("Dummy Serial")
             self.serialWrite = lambda write :None
-            self.serialQuery = lambda query :b"Yes\r\n"
+            self.serialQuery = lambda query :b"Yes\r\n" if input("Type something to confirm yes: ") else b"No\r\n"
     def randomLocker(self):
         return "1" #return locker ID
     def hasObject(self, obj):
