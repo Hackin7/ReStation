@@ -135,6 +135,7 @@ class DataBase(DataBaseTemplate):
             u'title':obj.name,
             u'filePath':imageNewPath,
             u'keyPin':0,
+            u'hasPin':False,
             u'uid':"Anoynomous"
         })
         self.writeImage("/tmp/output.jpeg", imageNewPath)
@@ -164,6 +165,7 @@ except:
     db = DataBaseTemplate()
 
 import serial
+import random
 class HardwareLocker:
     number = 0
     
@@ -184,7 +186,7 @@ class HardwareLocker:
             self.serialWrite = lambda write :None
             self.serialQuery = lambda query :b"Yes\r\n" if input("Type something to confirm yes: ") else b"No\r\n"
     def randomLocker(self):
-        return "1" #return locker ID
+        return random.randint(1,10)#return locker ID
     def hasObject(self, obj):
         data = self.serialQuery("check\n")
         state = data == b"Yes\r\n"
