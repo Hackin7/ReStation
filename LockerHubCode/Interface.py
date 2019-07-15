@@ -17,17 +17,9 @@ class ReuseableObject:
         if not havePin: return True
         elif havePin and pin == self.pin: return True
         else: return False
-'''
-class ImageRecognition:
-    isAbuse = False
-    image = ""
-    def __init__(self):pass
-    def check(self):
-        self.isAbuse = False
-'''
 from classify_image import *
 maybe_download_and_extract()
-allowed = ["radio", "cellular phone","cell", "mobile computer", "handheld computer", "iPod", "casette","projector","television", "monitor","screen",'punching bag', 'punch bag', 'punching ball', 'punchball', 'balloon', 'hair spray', 'bathing cap', 'swimming cap', 'seat belt', 'seatbelt',]
+allowed = ["radio", "cellular phone","cell", "mobile computer", "handheld computer", "iPod", "casette","projector","television", "monitor","screen",'punching bag', 'punch bag', 'punching ball', 'punchball', 'balloon', 'hair spray', 'bathing cap', 'swimming cap', 'seat belt', 'seatbelt','wall clock', 'analog clock', 'book jacket', 'dust cover', 'dust jacket', 'dust wrapper', 'binder', 'ring-binder', 'tray', '']
 class ImageRecognition:
     isAbuse = False
     image = ""
@@ -98,24 +90,23 @@ class DataBase(DataBaseTemplate):
     def objInDatabase(self,objID):
         self.retrieveWholeDatabase()
         for doc in self.docs:
-            if str(doc.to_dict().get('lockerNumber')) == str(objID):
+            if str(doc.to_dict().get('lockerNumber')) == str(objID) and\
+               not doc.to_dict().get('collected'):
                 return True
         return False
         
     def readInObj(self,objID):
         self.retrieveWholeDatabase()
         for doc in self.docs:
-            if str(doc.to_dict().get('lockerNumber')) == str(objID):
+            if str(doc.to_dict().get('lockerNumber')) == str(objID) and\
+               not doc.to_dict().get('collected'):
                 break
         obj = ReuseableObject() 
         obj.id = doc.to_dict().get('lockerNumber')
         obj.name = doc.to_dict().get('title')
         obj.description = doc.to_dict().get("descrip")
         obj.pin = doc.to_dict().get("keyPin")
-        if obj.pin == None:
-            obj.hasPin = False
-        else:
-            obj.hasPin = True
+        obj.hasPin = doc.to_dict().get("claimed")
         return obj
     
     def writeImage(self, imagePath, imageNewPath):
@@ -126,7 +117,6 @@ class DataBase(DataBaseTemplate):
         doc_ref = self.fireDB.collection(u'listings').document()
         imageNewPath = "itemimages/"+doc_ref.id+".jpeg"
         doc_ref.set({
-            u'claimed': False,
             u'confirmed': False,
             u'descrip': obj.description,
             u'datetime': datetime.datetime.now(),
@@ -134,12 +124,23 @@ class DataBase(DataBaseTemplate):
             u'lockerNumber': str(obj.id),
             u'title':obj.name,
             u'filePath':imageNewPath,
-            u'keyPin':0,
-            u'hasPin':False,
-            u'uid':"Anoynomous"
+            u'claimed': False,
+            u'keyPin':None,
+            u'uid':"Anoynomous",
+            u'collected':False
         })
         self.writeImage("/tmp/output.jpeg", imageNewPath)
     def removeObject(self, obj):
+        self.retrieveWholeDatabase()
+        for doc in self.docs:
+            if str(doc.to_dict().get('lockerNumber')) == str(obj.id) and\
+               not doc.to_dict().get('collected'):
+                break
+        doc = self.fireDB.collection(u'listings').document(doc.id)
+        field_updates = {"collected": True}
+        doc.update(field_updates)
+        
+    def removeObjectEntirely(self, obj):
         self.retrieveWholeDatabase()
         for doc in self.docs:
             if str(doc.to_dict().get('lockerNumber')) == str(obj.id):
@@ -186,7 +187,7 @@ class HardwareLocker:
             self.serialWrite = lambda write :None
             self.serialQuery = lambda query :b"Yes\r\n" if input("Type something to confirm yes: ") else b"No\r\n"
     def randomLocker(self):
-        return random.randint(1,10)#return locker ID
+        return random.randint(1,1000)#return locker ID
     def hasObject(self, obj):
         data = self.serialQuery("check\n")
         state = data == b"Yes\r\n"
