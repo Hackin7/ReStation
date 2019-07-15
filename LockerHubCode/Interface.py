@@ -127,8 +127,8 @@ class DataBase(DataBaseTemplate):
             u'datetime': None,
             u'lockerLocation': 'South',
             u'lockerNumber': str(obj.id),
-            u'title':obj.name,
-            u'imagePath':destination_blob_name
+            u'title':obj.name
+            #u'imagePath':destination_blob_name,
         })
         
         #Image

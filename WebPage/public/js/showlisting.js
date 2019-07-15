@@ -45,10 +45,10 @@ function initListingDetails(data){
     $("#list-datetime-expiry").html(dateExpiry);
     
 
-    $("#list-uid").html(data.uid);
-    $("#list-descrip").html(data.descrip);
-    $("#list-lockerLoc").html(data.lockerLocation);
-    $("#list-lockerNum").html(data.lockerNumber);
+    $("#list-uid").html(data.uid.toString());
+    $("#list-descrip").html(data.descrip.toString());
+    $("#list-lockerLoc").html(data.lockerLocation.toString());
+    $("#list-lockerNum").html(data.lockerNumber.toString());
 }
 
 showListing();
